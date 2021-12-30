@@ -1,19 +1,21 @@
 function performGetRequest1() {
-  var resultElement = document.getElementById("app");
+  var resultElement = document.getElementById("display");
   resultElement.innerHTML = "";
+
   axios
     .get("https://s3.amazonaws.com/open-to-cors/assignment.json")
     .then(function(response) {
-      resultElement.innerHTML = getdata(response);
+      resultElement.innerHTML = generateSuccessHTMLOutput(response);
     })
     .catch(function(error) {
       resultElement.innerHTML = error;
     });
 }
-function getdata(response) {
+
+function generateSuccessHTMLOutput(response) {
   var products1 = JSON.stringify(response.data.products);
   var products = JSON.parse(products1);
-  var tdata = "<table><th>Title</th><th>Price</th><th>Popularity</th>";
+  var tdata = "<table><th>Title</th><th>Price</th>";
   var keys = Object.keys(products);
   var arr = [];
   for (let i = 0; i < keys.length; i++) {
@@ -40,11 +42,8 @@ function getdata(response) {
       arr[j][0] +
       "</td><td>" +
       arr[j][1] +
-      "</td><td> " +
-      arr[j][2]+
-      "</td>"
+      "</td><td>" +
       "</tr>";
-
   }
   tdata += "</table>";
   return tdata;
